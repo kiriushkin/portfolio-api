@@ -1,6 +1,21 @@
 import worksService from './works.service.js';
 
 class WorksControllers {
+  async getWork(req, res) {
+    try {
+      const { name } = req.params;
+
+      const work = await worksService.getWork(name);
+
+      if (!work) return res.status(404).send({ message: 'Work not found.' });
+
+      res.send(work);
+    } catch (err) {
+      console.error(err);
+      res.send({ message: err.message });
+    }
+  }
+
   async getWorks(req, res) {
     try {
       res.send(await worksService.getWorks());

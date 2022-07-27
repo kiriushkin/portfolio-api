@@ -41,6 +41,10 @@ class WorksService {
     return imgbbResp.data.data.url;
   }
 
+  async getWork(name) {
+    return await Work.findOne({ where: { name } });
+  }
+
   async getWorks() {
     return await Work.findAll({ raw: true });
   }

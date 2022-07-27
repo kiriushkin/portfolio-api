@@ -3,6 +3,8 @@ import worksControllers from './works.controllers.js';
 
 const router = express.Router();
 
+router.get('/:name', worksControllers.getWork);
+
 router
   .route('/')
   .get(worksControllers.getWorks)

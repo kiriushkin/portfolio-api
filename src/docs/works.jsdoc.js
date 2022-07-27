@@ -1,5 +1,37 @@
 /**
  * @swagger
+ * /works/{name}:
+ *   get:
+ *     summary: Return work object
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         schema:
+ *           type: string
+ *           example: audio-platform
+ *         required: true
+ *         description: Work name
+ *     tags:
+ *       - Works
+ *     responses:
+ *       '200':
+ *         description: Work JSON object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Work'
+ *       '404':
+ *         description: Work not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       default:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  * /works:
  *   get:
  *     summary: Return an array of works
