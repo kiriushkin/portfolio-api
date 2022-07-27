@@ -18,7 +18,7 @@ const options = {
         description: 'Development Server',
       },
       {
-        url: 'https://api.kiriushkin.pro:5000/api',
+        url: 'https://api.kiriushkin.pro/portfolio/api',
         description: 'Production Server',
       },
     ],

@@ -7,6 +7,7 @@
  *       required:
  *         - id
  *         - title
+ *         - name
  *       properties:
  *         id:
  *           type: integer
@@ -15,6 +16,9 @@
  *         title:
  *           type: string
  *           example: Audio Platform
+ *         name:
+ *           type: string
+ *           example: audio-platform
  *         description:
  *           type: string
  *           example: An App to listen to audio
@@ -29,9 +33,6 @@
  *           example: https://audio-platform.netlify.app/
  *     Works:
  *       type: array
- *       required:
- *         - id
- *         - name
  *       items:
  *         $ref: '#/components/schemas/Work'
  *     Error:

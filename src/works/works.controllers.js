@@ -12,8 +12,8 @@ class WorksControllers {
 
   async addWork(req, res) {
     try {
-      if (!req.body.title)
-        return res.status(400).send({ message: 'Title is missing.' });
+      if (!req.body.title || !req.body.name)
+        return res.status(400).send({ message: 'Title or name is missing.' });
 
       if (req.body.liveLink)
         req.body.previewUrl = await worksService.getPreviewUrl(
