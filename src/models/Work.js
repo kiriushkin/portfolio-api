@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../sequelize.js';
+import Tag from './Tag.js';
 
 const Work = sequelize.define('work', {
   id: {
@@ -18,10 +19,16 @@ const Work = sequelize.define('work', {
   description: {
     type: DataTypes.STRING,
   },
+  tags: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+  },
   previewUrl: {
     type: DataTypes.STRING,
   },
   githubLink: {
+    type: DataTypes.STRING,
+  },
+  apiLink: {
     type: DataTypes.STRING,
   },
   liveLink: {
@@ -30,8 +37,9 @@ const Work = sequelize.define('work', {
 });
 
 try {
+  Tag.hasMany(Work);
   await Work.sync({ alter: true });
-  console.log('Work table was synced.');
+  console.log('Work table synced.');
 } catch (err) {
   console.error(err);
 }
