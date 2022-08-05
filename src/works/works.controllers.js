@@ -37,6 +37,9 @@ class WorksControllers {
 
       const result = await worksService.addWork(req.body);
 
+      if (req.body.tags)
+        await worksService.addTags(result.dataValues.id, req.body.tags);
+
       res.status(201).send(result.dataValues);
     } catch (err) {
       console.error(err);

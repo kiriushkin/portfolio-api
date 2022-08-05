@@ -2,7 +2,7 @@ import Tag from '../models/Tag.js';
 
 class TagsService {
   async getTags() {
-    return await Tag.findAll({ raw: true });
+    return await Tag.findAll({ raw: true, order: [['color', 'DESC']] });
   }
 
   async addTag(tag) {

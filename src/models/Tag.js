@@ -1,21 +1,25 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../sequelize.js';
 
-const Tag = sequelize.define('tag', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+const Tag = sequelize.define(
+  'tag',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    color: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  color: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
+  { timestamps: false }
+);
 
 try {
   await Tag.sync({ alter: true });

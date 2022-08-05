@@ -2,7 +2,9 @@ import axios from 'axios';
 import sharp from 'sharp';
 import { nanoid } from 'nanoid';
 import FormData from 'form-data';
+import { Op } from 'sequelize';
 import Work from '../models/Work.js';
+import WorkDetail from '../models/WorkDetail.js';
 
 const {
   BROWSHOT_API_KEY,
@@ -46,11 +48,31 @@ class WorksService {
   }
 
   async getWorks() {
-    return await Work.findAll({ raw: true });
+    const works = await Work.findAll({ raw: true });
+    for (let work of works) {
+      const tags = await WorkDetail.findAll({
+        raw: true,
+        where: { workId: work.id, tagId: { [Op.ne]: null } },
+        attributes: [['tagId', 'id']],
+      });
+
+      work.tags = tags.map((tag) => tag.id);
+    }
+
+    return works;
   }
 
   async addWork(work) {
     return await Work.create(work);
+  }
+
+  async addTags(workId, tags) {
+    const responses = [];
+    tags.forEach((tagId) =>
+      responses.push(WorkDetail.create({ workId, tagId }))
+    );
+
+    await Promise.all(responses);
   }
 
   async updateWork(work) {
