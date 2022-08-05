@@ -44,7 +44,16 @@ class WorksService {
   }
 
   async getWork(name) {
-    return await Work.findOne({ where: { name } });
+    const work = await Work.findOne({ where: { name }, raw: true });
+    const tags = await WorkDetail.findAll({
+      raw: true,
+      where: { workId: work.id, tagId: { [Op.ne]: null } },
+      attributes: [['tagId', 'id']],
+    });
+
+    work.tags = tags.map((tag) => tag.id);
+
+    return work;
   }
 
   async getWorks() {
@@ -77,6 +86,16 @@ class WorksService {
 
   async updateWork(work) {
     return await Work.update(work, { where: { id: work.id }, returning: true });
+  }
+
+  async updateTags(workId, tags) {
+    const responses = [];
+    await WorkDetail.destroy({ where: { workId } });
+    tags.forEach((tagId) =>
+      responses.push(WorkDetail.create({ workId, tagId }))
+    );
+
+    await Promise.all(responses);
   }
 
   async deleteWork(id) {

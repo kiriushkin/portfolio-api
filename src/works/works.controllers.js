@@ -40,7 +40,9 @@ class WorksControllers {
       if (req.body.tags)
         await worksService.addTags(result.dataValues.id, req.body.tags);
 
-      res.status(201).send(result.dataValues);
+      const work = await worksService.getWork(req.body.name);
+
+      res.status(201).send(work);
     } catch (err) {
       console.error(err);
       res.send({ message: err.message });
@@ -62,7 +64,12 @@ class WorksControllers {
       if (updatedNum === 0)
         return res.status(404).send({ message: 'Work not found.' });
 
-      res.send(data);
+      if (req.body.tags)
+        await worksService.updateTags(req.body.id, req.body.tags);
+
+      const work = await worksService.getWork(req.body.name);
+
+      res.send(work);
     } catch (err) {
       console.error(err);
       res.send({ message: err.message });
