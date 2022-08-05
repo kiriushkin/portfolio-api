@@ -34,7 +34,7 @@ class TagsControllers {
       if (!req.body.id)
         return res.status(400).send({ message: 'Tag id is missing.' });
 
-      const [updatedNum, [data]] = await worksService.updateWork(req.body);
+      const [updatedNum, [data]] = await tagsService.updateTag(req.body);
 
       if (updatedNum === 0)
         return res.status(404).send({ message: 'Tag not found.' });
