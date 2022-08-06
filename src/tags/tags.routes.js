@@ -1,13 +1,14 @@
 import express from 'express';
 import tagsControllers from './tags.controllers.js';
+import auth from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
 router
   .route('/')
   .get(tagsControllers.getTags)
-  .post(tagsControllers.addTag)
-  .put(tagsControllers.updateTag)
-  .delete(tagsControllers.deleteTag);
+  .post(auth, tagsControllers.addTag)
+  .put(auth, tagsControllers.updateTag)
+  .delete(auth, tagsControllers.deleteTag);
 
 export default router;
