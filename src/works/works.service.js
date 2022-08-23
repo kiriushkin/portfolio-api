@@ -6,26 +6,23 @@ import { Op } from 'sequelize';
 import Work from '../models/Work.js';
 import WorkDetail from '../models/WorkDetail.js';
 
-const {
-  BROWSHOT_API_KEY,
-  BROWSHOT_API_URL,
-  BROWSHOT_INSTANCE_ID,
-  IMGBB_API_KEY,
-  IMGBB_API_URL,
-} = process.env;
+const { SCREENSHOT_API_KEY, SCREENSHOT_API_URL, IMGBB_API_KEY, IMGBB_API_URL } =
+  process.env;
 
 class WorksService {
   async getPreviewUrl(url) {
-    const browResp = await axios(BROWSHOT_API_URL, {
+    const shotResp = await axios(SCREENSHOT_API_URL, {
       params: {
-        key: BROWSHOT_API_KEY,
+        access_key: SCREENSHOT_API_KEY,
         url,
-        instance_id: BROWSHOT_INSTANCE_ID,
+        wait_until: 'page_loaded',
+        width: 1350,
+        height: 900,
       },
       responseType: 'arraybuffer',
     });
 
-    const buffer = Buffer.from(browResp.data);
+    const buffer = Buffer.from(shotResp.data);
 
     const newBuffer = await sharp(buffer).webp().toBuffer();
 
