@@ -54,20 +54,21 @@ class WorksControllers {
       if (!req.body.id)
         return res.status(400).send({ message: 'Work id is missing.' });
 
-      if (req.body.liveLink)
+      let work = await worksService.getWork(req.body.name);
+
+      if (!work) return res.status(404).send({ message: 'Work not found.' });
+
+      if (req.body?.liveLink !== work.liveLink)
         req.body.previewUrl = await worksService.getPreviewUrl(
           req.body.liveLink
         );
 
-      const [updatedNum, [data]] = await worksService.updateWork(req.body);
-
-      if (updatedNum === 0)
-        return res.status(404).send({ message: 'Work not found.' });
+      worksService.updateWork(req.body);
 
       if (req.body.tags)
         await worksService.updateTags(req.body.id, req.body.tags);
 
-      const work = await worksService.getWork(req.body.name);
+      work = await worksService.getWork(req.body.name);
 
       res.send(work);
     } catch (err) {
